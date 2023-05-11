@@ -1,0 +1,189 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+  background-color: black;
+  color: whitesmoke;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1000px;
+  margin: 20px auto 0;
+  align-items: center;
+  height: 50px;
+}
+
+hr {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+p.date {
+  margin: 5px 0 35px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+h4>a {
+  color: white;
+  font-size: 1.1em;
+}
+
+.Navigation ul li {
+  display: inline-block;
+  margin-inline: 10px;
+}
+
+.Navigation ul li a {
+  font-size: 1.5em;
+  color: inherit;
+}
+
+main {
+  width: 100%;
+  /* max-width: 1000px; */
+  margin: 20px auto;
+}
+
+section {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.note-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  text-overflow: ellipsis;
+}
+
+.note-item {
+  border: solid 1px white;
+  box-shadow: 0px -3px 1px white;
+  padding: 10px;
+  width: 270px;
+  aspect-ratio: 1 / 0.74;
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+
+}
+
+.note-item-date {
+  margin-bottom: 10px;
+  font-size: 0.7em;
+  opacity: 0.8;
+}
+
+.note-item-button {
+  display: flex;
+}
+
+button.btn-delete {
+
+  bottom: 0;
+  left: 0;
+  height: 20px;
+  width: 50%;
+  background-color: red;
+}
+
+button {
+  color: whitesmoke;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: absolute;
+}
+
+button.btn-archive,
+button.btn-active {
+  bottom: 0;
+  right: 0;
+  height: 20px;
+  width: 50%;
+}
+
+
+button.btn-archive {
+  background-color: darkgreen;
+}
+
+button.btn-active {
+  background-color: darkblue;
+}
+
+button[type="submit"] {
+  bottom: -60px;
+  right: 0;
+  font-size: 1.1em;
+  padding: 5px 10px;
+  background-color: darkgreen;
+}
+
+form {
+  position: relative;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0 10px;
+}
+
+input,
+textarea {
+  background-color: black;
+  color: white;
+  padding: 10px 0px;
+  border: none;
+  outline: none;
+  font-family: 'Courier New', Courier, monospace;
+  width: 100%;
+}
+
+input.title {
+  font-size: 1.5em;
+}
+
+textarea.body {
+  font-size: 1.2em;
+}
+
+input.search-bar {
+  font-size: 1.3em;
+  padding: 5px 10px;
+  margin: 10px 0 30px;
+  color: whitesmoke;
+  border: 1px solid gray;
+}
+
+.pop-button {
+  position: fixed;
+  bottom: 20px;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-grow: 1;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 400px) {
+  header {
+    justify-content: flex-end;
+  }
+
+  header>h2 {
+    display: none;
+  }
+}
