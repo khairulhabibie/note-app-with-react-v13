@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import AddPage from './pages/AddPage';
-import DetailPageWrapper from './pages/DetailPage';
+import DetailPage from './pages/DetailPage';
 import HomePage from './pages/HomePage';
-import ArchivePageWrapper from './pages/ArchivePage';
+import ArchivePage from './pages/ArchivePage';
 import NotFound from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage'
@@ -53,8 +53,9 @@ function App() {
         </header>
         <main>
           <Routes>
-            <Route path="/" exact element={<LoginPage loginSuccess={onLoginSuccessHandler} />} />
+            <Route path="/login" exact element={<LoginPage loginSuccess={onLoginSuccessHandler} />} />
             <Route path='/register' element={<RegisterPage />} />
+            <Route path='/*' element={<Navigate to="/login" replace />} />
           </Routes>
         </main>
       </div>
@@ -71,11 +72,11 @@ function App() {
       <main>
         <Routes>
           <Route path="/" exact element={<HomePage />} />
+          <Route path='/*' element={<Navigate to="/" replace />} />
           <Route path="/note/new" element={<AddPage />} />
-          <Route path="/archives" element={<ArchivePageWrapper />} />
-          <Route path="/note/:id" element={<DetailPageWrapper />} />
+          <Route path="/archives" element={<ArchivePage />} />
+          <Route path="/note/:id" element={<DetailPage />} />
           <Route path='/404' element={<NotFound />} />
-          <Route path='*' element={<Navigate to="/404" replace />} />
         </Routes>
 
       </main>
