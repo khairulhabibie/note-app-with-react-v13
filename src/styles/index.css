@@ -45,11 +45,15 @@ h4>a {
 .Navigation ul li {
   display: inline-block;
   margin-inline: 10px;
+
 }
 
 .Navigation ul li a {
   font-size: 1.5em;
   color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 main {

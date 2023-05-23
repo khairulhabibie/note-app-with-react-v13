@@ -6,13 +6,43 @@ import DetailPageWrapper from './pages/DetailPage';
 import HomePage from './pages/HomePage';
 import ArchivePageWrapper from './pages/ArchivePage';
 import NotFound from './pages/NotFoundPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage'
+import { getUserLogged, putAccessToken } from './utils/network-data';
 
 function App() {
+  const [authedUser, setAuthedUser] = React.useState(null)
+
+  async function onLoginSuccessHandler({ accessToken }) {
+    putAccessToken(accessToken)
+    const { data } = await getUserLogged()
+    setAuthedUser(data)
+  }
+
+
+  if (authedUser === null) {
+    return (
+      <div>
+        <header>
+          <h2>Aplikasi Catatan</h2>
+          <Navigation authedUser={authedUser} />
+        </header>
+        <main>
+          <Routes>
+            <Route path="/*" exact element={<LoginPage loginSuccess={onLoginSuccessHandler} />} />
+            <Route path='/register' element={<RegisterPage />} />
+          </Routes>
+        </main>
+      </div>
+    )
+
+  }
+
   return (
     <div>
       <header>
-        <h2 className='text-3xl'>Aplikasi Catatan</h2>
-        <Navigation />
+        <h2>Aplikasi Catatan - {authedUser.name}</h2>
+        <Navigation authedUser={authedUser} />
       </header>
       <main>
         <Routes>
