@@ -34,6 +34,7 @@ function App() {
       setInitializing(false)
     }
     refreshPage()
+
     return () => {
       setAuthedUser(null)
       setInitializing(true)
@@ -55,15 +56,15 @@ function App() {
   }, [theme]);
 
   React.useEffect(() => {
-    function changeMode(dataTheme) {
+    function changeTheme(dataTheme) {
       document.documentElement.setAttribute('data-theme', dataTheme);
       localStorage.setItem('localTheme', theme)
     }
     const localTheme = localStorage.getItem('localTheme')
-    localTheme === null ? changeMode(localTheme) : changeMode(theme)
+    localTheme === null ? changeTheme(localTheme) : changeTheme(theme)
 
     return () => {
-      changeMode()
+      changeTheme()
     }
   }, [theme])
 
