@@ -3,10 +3,9 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import AddPage from './pages/AddPage';
 import DetailPageWrapper from './pages/DetailPage';
-import HomePageWrapper from './pages/HomePage';
+import HomePage from './pages/HomePage';
 import ArchivePageWrapper from './pages/ArchivePage';
 import NotFound from './pages/NotFoundPage';
-
 
 function App() {
   return (
@@ -17,7 +16,7 @@ function App() {
       </header>
       <main>
         <Routes>
-          <Route path="/" exact element={<HomePageWrapper />} />
+          <Route path="/" exact element={<HomePage />} />
           <Route path="/note/new" element={<AddPage />} />
           <Route path="/archives" element={<ArchivePageWrapper />} />
           <Route path="/note/:id" element={<DetailPageWrapper />} />
