@@ -1,16 +1,14 @@
-import React from 'react'
+import * as React from 'react'
 import useInput from '../hooks/useInput'
-
+import PropTypes from 'prop-types'
 
 const RegisterInput = ({ register }) => {
     const [name, onNameChange] = useInput('')
     const [email, onEmailChange] = useInput('')
     const [password, onPasswordChange] = useInput('')
 
-
     function onSubmitEventHandler(event) {
         event.preventDefault();
-        // console.log({ name, email, password })
         register({ name, email, password })
     }
     return (
@@ -21,6 +19,10 @@ const RegisterInput = ({ register }) => {
             <button type='submit'>Register</button>
         </form>
     )
+}
+
+RegisterInput.propTypes = {
+    register: PropTypes.func.isRequired,
 }
 
 export default RegisterInput

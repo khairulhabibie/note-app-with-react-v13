@@ -1,9 +1,9 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import { FiHome, FiPlusCircle, FiFolder, FiLogIn, FiLogOut } from "react-icons/fi";
 import { GiArchiveRegister } from 'react-icons/gi'
 import { MdLightMode, MdModeNight } from 'react-icons/md'
-
 import ThemeContext from '../contexts/ThemeContext'
 
 
@@ -56,6 +56,12 @@ const Navigation = ({ authedUser, logout }) => {
             </ul>
         </nav>
     )
+}
+
+
+Navigation.propTypes = {
+    authedUser: PropTypes.object,
+    logout: PropTypes.func
 }
 
 export default Navigation

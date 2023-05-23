@@ -55,17 +55,17 @@ function App() {
   }, [theme]);
 
   React.useEffect(() => {
-    // console.log(theme)
-    function changeMode() {
-      document.documentElement.setAttribute('data-theme', theme);
+    function changeMode(dataTheme) {
+      document.documentElement.setAttribute('data-theme', dataTheme);
+      localStorage.setItem('localTheme', theme)
     }
-    changeMode()
+    const localTheme = localStorage.getItem('localTheme')
+    localTheme === null ? changeMode(localTheme) : changeMode(theme)
 
     return () => {
-
+      changeMode()
     }
   }, [theme])
-
 
   if (initializing === true) {
     return null
