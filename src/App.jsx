@@ -9,12 +9,12 @@ import NotFound from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage'
 import { getUserLogged, putAccessToken } from './utils/network-data';
-// import { ThemeProvider } from './contexts/ThemeContext';
+import ThemeContext from './contexts/ThemeContext';
 
 function App() {
   const [authedUser, setAuthedUser] = React.useState(null)
   const [initializing, setInitializing] = React.useState(true)
-  // const [themeContext, setThemeContext] = React.useState('Light')
+  const [theme, setTheme] = React.useState('light')
 
   async function onLoginSuccessHandler({ accessToken }) {
     putAccessToken(accessToken)
@@ -40,47 +40,75 @@ function App() {
     }
   }, [])
 
+
+  function toggleTheme() {
+    setTheme((prevTheme) => {
+      return prevTheme === 'light' ? 'dark' : 'light'
+    })
+  }
+
+  const themeContextValue = React.useMemo(() => {
+    return {
+      theme,
+      toggleTheme
+    };
+  }, [theme]);
+
+  React.useEffect(() => {
+    // console.log(theme)
+    function changeMode() {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+    changeMode()
+
+    return () => {
+
+    }
+  }, [theme])
+
+
   if (initializing === true) {
     return null
   }
 
   if (authedUser === null) {
     return (
-      <div>
-        <header>
-          <h2>Aplikasi Catatan</h2>
-          <Navigation authedUser={authedUser} />
-        </header>
-        <main>
-          <Routes>
-            <Route path="/login" exact element={<LoginPage loginSuccess={onLoginSuccessHandler} />} />
-            <Route path='/register' element={<RegisterPage />} />
-            <Route path='/*' element={<Navigate to="/login" replace />} />
-          </Routes>
-        </main>
-      </div>
+      <>
+        <ThemeContext.Provider value={themeContextValue}>
+          <header>
+            <h2>Aplikasi Catatan</h2>
+            <Navigation authedUser={authedUser} />
+          </header>
+          <main>
+            <Routes>
+              <Route path="/login" exact element={<LoginPage loginSuccess={onLoginSuccessHandler} />} />
+              <Route path='/register' element={<RegisterPage />} />
+              <Route path='/*' element={<Navigate to="/login" replace />} />
+            </Routes>
+          </main>
+        </ThemeContext.Provider>
+      </>
     )
   }
 
   return (
     <>
-      {/* <ThemeProvider value={themeContext}> */}
-      <header>
-        <h2>Aplikasi Catatan - {authedUser.name}</h2>
-        <Navigation authedUser={authedUser} logout={onLogoutHandler} />
-      </header>
-      <main>
-        <Routes>
-          <Route path="/" exact element={<HomePage />} />
-          <Route path='/*' element={<Navigate to="/" replace />} />
-          <Route path="/note/new" element={<AddPage />} />
-          <Route path="/archives" element={<ArchivePage />} />
-          <Route path="/note/:id" element={<DetailPage />} />
-          <Route path='/404' element={<NotFound />} />
-        </Routes>
-
-      </main>
-      {/* </ThemeProvider> */}
+      <ThemeContext.Provider value={themeContextValue}>
+        <header>
+          <h2>Aplikasi Catatan - {authedUser.name}</h2>
+          <Navigation authedUser={authedUser} logout={onLogoutHandler} />
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" exact element={<HomePage />} />
+            <Route path='/*' element={<Navigate to="/" replace />} />
+            <Route path="/note/new" element={<AddPage />} />
+            <Route path="/archives" element={<ArchivePage />} />
+            <Route path="/note/:id" element={<DetailPage />} />
+            <Route path='/404' element={<NotFound />} />
+          </Routes>
+        </main>
+      </ThemeContext.Provider>
     </>
   );
 }
