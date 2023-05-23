@@ -3,30 +3,47 @@ import NoteList from '../components/NoteList'
 import { useSearchParams } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 
-// data
-import { getArchivedNotes, deleteNote, unarchiveNote } from '../utils/local-data'
+// API
+import { getArchivedNotes, deleteNote, unarchiveNote } from '../utils/network-data'
 
 function ArchivePage() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [notes, setNote] = React.useState(() => getArchivedNotes())
+  const [notes, setNote] = React.useState([])
   const [keyword, setKeyword] = React.useState(() => searchParams.get('keyword') || '')
 
-  const onDeleteNoteHandler = (id) => {
-    deleteNote(id);
-    const activeNotes = getArchivedNotes()
-    setNote(activeNotes)
+  async function onDeleteNoteHandler(id) {
+    await deleteNote(id);
+    const { error, data } = await getArchivedNotes()
+    if (!error) {
+      setNote(data)
+    }
   }
 
-  const onToggleArchiveNoteHandler = (id) => {
-    unarchiveNote(id)
-    const activeNotes = getArchivedNotes()
-    setNote(activeNotes)
+  async function onToggleArchiveNoteHandler(id) {
+    await unarchiveNote(id)
+    const { error, data } = await getArchivedNotes()
+    if (!error) {
+      setNote(data)
+    }
   }
 
-  const onKeywordChangeHandler = (keyword) => {
+  async function onKeywordChangeHandler(keyword) {
     setKeyword(keyword);
     setSearchParams({ keyword })
   }
+
+  React.useEffect(() => {
+    async function fetchNotesFromApi() {
+      const { error, data } = await getArchivedNotes()
+      if (!error) {
+        setNote(data)
+      }
+    }
+    fetchNotesFromApi()
+    return () => {
+      setNote([])
+    }
+  }, [setNote])
 
   const notesFilter = notes.filter((note) => {
     return note.title

@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import NoteInput from '../components/NoteInput'
 
 // data
-import { addNote } from '../utils/local-data'
+// import { addNote } from '../utils/local-data'
+import { addNote } from '../utils/network-data'
 
 const AddPage = () => {
   const navigate = useNavigate();
 
-  function onAddNoteHandler(contact) {
-    addNote(contact);
+  async function onAddNoteHandler(note) {
+    await addNote(note);
     navigate("/");
   }
 
