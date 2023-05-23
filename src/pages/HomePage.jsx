@@ -8,8 +8,9 @@ import SearchBar from '../components/SearchBar'
 import { getActiveNotes, deleteNote, archiveNote } from '../utils/network-data'
 
 function HomePage() {
-  const [searchParams, setSearchParams] = useSearchParams()
   const [notes, setNote] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
+  const [searchParams, setSearchParams] = useSearchParams()
   const [keyword, setKeyword] = React.useState(() => searchParams.get('keyword') || '')
 
   async function onDeleteNoteHandler(id) {
@@ -38,16 +39,16 @@ function HomePage() {
       const { error, data } = await getActiveNotes()
       if (!error) {
         setNote(data)
+        setLoading(false)
       }
     }
     fetchNotesFromApi()
 
     return () => {
-      setNote([])
+      setLoading(true)
     }
-  }, [setNote])
+  }, [])
 
-  // console.log(notes)
 
   const notesFilter = notes.filter((note) => {
     return note.title
@@ -55,6 +56,11 @@ function HomePage() {
       .includes(keyword.toLowerCase());
   });
 
+  if (loading) {
+    return (
+      <section><h3>Loading...!</h3></section>
+    )
+  }
 
   return (
     <>

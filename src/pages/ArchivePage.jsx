@@ -7,8 +7,9 @@ import SearchBar from '../components/SearchBar'
 import { getArchivedNotes, deleteNote, unarchiveNote } from '../utils/network-data'
 
 function ArchivePage() {
-  const [searchParams, setSearchParams] = useSearchParams()
   const [notes, setNote] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
+  const [searchParams, setSearchParams] = useSearchParams()
   const [keyword, setKeyword] = React.useState(() => searchParams.get('keyword') || '')
 
   async function onDeleteNoteHandler(id) {
@@ -37,19 +38,26 @@ function ArchivePage() {
       const { error, data } = await getArchivedNotes()
       if (!error) {
         setNote(data)
+        setLoading(false)
       }
     }
     fetchNotesFromApi()
     return () => {
-      setNote([])
+      setLoading(true)
     }
-  }, [setNote])
+  }, [])
 
   const notesFilter = notes.filter((note) => {
     return note.title
       .toLowerCase()
       .includes(keyword.toLowerCase());
   });
+
+  if (loading) {
+    return (
+      <section><h3>Loading...!</h3></section>
+    )
+  }
 
   return (
     <>

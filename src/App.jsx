@@ -9,10 +9,12 @@ import NotFound from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage'
 import { getUserLogged, putAccessToken } from './utils/network-data';
+// import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   const [authedUser, setAuthedUser] = React.useState(null)
   const [initializing, setInitializing] = React.useState(true)
+  // const [themeContext, setThemeContext] = React.useState('Light')
 
   async function onLoginSuccessHandler({ accessToken }) {
     putAccessToken(accessToken)
@@ -51,17 +53,17 @@ function App() {
         </header>
         <main>
           <Routes>
-            <Route path="/*" exact element={<LoginPage loginSuccess={onLoginSuccessHandler} />} />
+            <Route path="/" exact element={<LoginPage loginSuccess={onLoginSuccessHandler} />} />
             <Route path='/register' element={<RegisterPage />} />
           </Routes>
         </main>
       </div>
     )
-
   }
 
   return (
-    <div>
+    <>
+      {/* <ThemeProvider value={themeContext}> */}
       <header>
         <h2>Aplikasi Catatan - {authedUser.name}</h2>
         <Navigation authedUser={authedUser} logout={onLogoutHandler} />
@@ -77,7 +79,8 @@ function App() {
         </Routes>
 
       </main>
-    </div>
+      {/* </ThemeProvider> */}
+    </>
   );
 }
 
