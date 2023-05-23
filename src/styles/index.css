@@ -48,12 +48,16 @@ h4>a {
 
 }
 
-.Navigation ul li a {
+.Navigation ul li a,
+.Navigation ul li button.logout {
   font-size: 1.5em;
   color: inherit;
   text-decoration: none;
   display: flex;
   align-items: center;
+  background-color: black;
+  color: aliceblue;
+  position: relative;
 }
 
 main {

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom';
-import { FiHome, FiPlusCircle, FiFolder, FiLogIn } from "react-icons/fi";
+import { FiHome, FiPlusCircle, FiFolder, FiLogIn, FiLogOut } from "react-icons/fi";
 import { BiRegistered } from 'react-icons/bi'
 
 
-const Navigation = ({ authedUser }) => {
+const Navigation = ({ authedUser, logout }) => {
     if (authedUser === null) {
         return (
             <nav className="Navigation">
@@ -39,6 +39,7 @@ const Navigation = ({ authedUser }) => {
                         <FiFolder />
                     </Link>
                 </li>
+                <li><button className='logout' onClick={logout}><FiLogOut /></button></li>
             </ul>
         </nav>
     )

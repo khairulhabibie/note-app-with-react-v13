@@ -36,10 +36,12 @@ function ArchivePage() {
 
   return (
     <>
-      <h3>Cari Catatan Arsip</h3>
-      <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
-      <br />
-      {notesFilter.length !== 0 ? <NoteList notes={notesFilter} onDelete={onDeleteNoteHandler} onToggleArchive={onToggleArchiveNoteHandler} /> : <p>Tidak ada catatan Arsip !</p>}
+      <section>
+        <h3>Cari Catatan Arsip</h3>
+        <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
+        <br />
+        {notesFilter.length !== 0 ? <NoteList notes={notesFilter} onDelete={onDeleteNoteHandler} onToggleArchive={onToggleArchiveNoteHandler} /> : <p>Tidak ada catatan Arsip !</p>}
+      </section>
     </>
   )
 }

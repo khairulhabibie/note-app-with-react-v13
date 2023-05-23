@@ -37,10 +37,10 @@ function HomePage() {
 
   return (
     <>
-      <h3>Cari Catatan Aktif</h3>
+     <section> <h3>Cari Catatan Aktif</h3>
       <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
       <br />
-      {notesFilter.length !== 0 ? <NoteList notes={notesFilter} onDelete={onDeleteNoteHandler} onToggleArchive={onToggleArchiveNoteHandler} /> : <p>Tidak ada catatan aktif !</p>}
+      {notesFilter.length !== 0 ? <NoteList notes={notesFilter} onDelete={onDeleteNoteHandler} onToggleArchive={onToggleArchiveNoteHandler} /> : <p>Tidak ada catatan aktif !</p>}</section>
     </>
   )
 }

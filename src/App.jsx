@@ -12,6 +12,7 @@ import { getUserLogged, putAccessToken } from './utils/network-data';
 
 function App() {
   const [authedUser, setAuthedUser] = React.useState(null)
+  const [initializing, setInitializing] = React.useState(true)
 
   async function onLoginSuccessHandler({ accessToken }) {
     putAccessToken(accessToken)
@@ -19,6 +20,27 @@ function App() {
     setAuthedUser(data)
   }
 
+  async function onLogoutHandler() {
+    setAuthedUser(null);
+    putAccessToken('')
+  }
+
+  React.useEffect(() => {
+    async function refreshPage() {
+      const { data } = await getUserLogged()
+      setAuthedUser(data)
+      setInitializing(false)
+    }
+    refreshPage()
+    return () => {
+      setAuthedUser(null)
+      setInitializing(true)
+    }
+  }, [])
+
+  if (initializing === true) {
+    return null
+  }
 
   if (authedUser === null) {
     return (
@@ -42,7 +64,7 @@ function App() {
     <div>
       <header>
         <h2>Aplikasi Catatan - {authedUser.name}</h2>
-        <Navigation authedUser={authedUser} />
+        <Navigation authedUser={authedUser} logout={onLogoutHandler} />
       </header>
       <main>
         <Routes>
