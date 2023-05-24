@@ -14,7 +14,7 @@ import ThemeContext from './contexts/ThemeContext';
 function App() {
   const [authedUser, setAuthedUser] = React.useState(null)
   const [initializing, setInitializing] = React.useState(true)
-  const [theme, setTheme] = React.useState('light')
+  const [theme, setTheme] = React.useState('')
 
   async function onLoginSuccessHandler({ accessToken }) {
     putAccessToken(accessToken)
@@ -28,6 +28,9 @@ function App() {
   }
 
   React.useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    savedTheme !== true ? setTheme(savedTheme) : setTheme('light');
+
     async function refreshPage() {
       const { data } = await getUserLogged()
       setAuthedUser(data)
@@ -41,32 +44,22 @@ function App() {
     }
   }, [])
 
+  React.useEffect(() => {
+    localStorage.setItem('theme', theme)
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme])
 
-  function toggleTheme() {
-    setTheme((prevTheme) => {
-      return prevTheme === 'light' ? 'dark' : 'light'
-    })
-  }
+  const toggleTheme = React.useCallback(() => {
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+  }, [theme])
 
   const themeContextValue = React.useMemo(() => {
     return {
       theme,
       toggleTheme
     };
-  }, [theme]);
-
-  React.useEffect(() => {
-    function changeTheme(dataTheme) {
-      document.documentElement.setAttribute('data-theme', dataTheme);
-      localStorage.setItem('localTheme', theme)
-    }
-    const localTheme = localStorage.getItem('localTheme')
-    localTheme === null ? changeTheme(localTheme) : changeTheme(theme)
-
-    return () => {
-      changeTheme()
-    }
-  }, [theme])
+  }, [theme, toggleTheme]);
 
   if (initializing === true) {
     return null
