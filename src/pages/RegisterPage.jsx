@@ -7,7 +7,6 @@ const RegisterPage = () => {
   const navigate = useNavigate()
 
   async function onRegisterHandler(user) {
-    // console.log(user)
     const { error } = await register(user);
     if (!error) {
       navigate('/')

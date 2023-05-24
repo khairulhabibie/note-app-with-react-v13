@@ -4,7 +4,7 @@ import ArchiveButton from './ArchiveButton'
 import PropTypes from 'prop-types'
 import { showFormattedDate } from '../utils'
 
-const NoteDetail = ({ id, title, body, createdAt, archived, onDelete, onToggleArchive, }) => {
+const NoteDetail = ({ id, title, body, createdAt, archived, onDelete, toggleArchive, }) => {
     return (
         <>
             <section className='note-detail'>
@@ -15,7 +15,7 @@ const NoteDetail = ({ id, title, body, createdAt, archived, onDelete, onToggleAr
 
             <div className='pop-button'>
                 <DeleteButton id={id} onDelete={onDelete} />
-                <ArchiveButton id={id} onToggleArchive={onToggleArchive} archived={archived} />
+                <ArchiveButton id={id} onToggleArchive={toggleArchive} archived={archived} />
 
             </div>
         </>
@@ -29,7 +29,7 @@ NoteDetail.propTypes = {
     createdAt: PropTypes.string.isRequired,
     archived: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
-    onToggleArchive: PropTypes.func.isRequired,
+    toggleArchive: PropTypes.func.isRequired,
 }
 
 export default NoteDetail

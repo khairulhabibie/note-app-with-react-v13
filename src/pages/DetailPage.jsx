@@ -1,57 +1,50 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import NoteDetail from '../components/NoteDetail';
-import PropTypes from 'prop-types'
 
-// data
-import { deleteNote, getNote, archiveNote, unarchiveNote, } from '../utils/local-data'
+// API
+import { deleteNote, getNote, archiveNote, unarchiveNote } from '../utils/network-data'
 
-const DetailPageWapper = () => {
+const DetailPage = () => {
+    const [note, setNote] = React.useState(null)
     const { id } = useParams();
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    function onDeleteNoteHandler(id) {
-        deleteNote(id);
+    async function onDeleteNoteHandler(id) {
+        await deleteNote(id)
         navigate('/')
     }
 
-    function onActiveNoteHandler() {
+    React.useEffect(() => {
+        async function fetchNotesFromApi() {
+            const { error, data } = await getNote(id)
+            if (!error) {
+                setNote(data)
+            }
+        }
+        fetchNotesFromApi()
+        return () => {
+            setNote(null)
+        }
+    }, [id])
+
+    async function onToggleArchiveHandler(id) {
+        note.archived ? await unarchiveNote(id) : await archiveNote(id)
         navigate('/')
     }
 
-    return <DetailPage id={id} onDelete={onDeleteNoteHandler} onActiveNote={onActiveNoteHandler} />
-}
-
-class DetailPage extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            note: getNote(this.props.id)
-        }
-    }
-
-    onToggleArchiveHandler = (id) => {
-        this.state.note.archived ? unarchiveNote(id) : archiveNote(id);
-        this.props.onActiveNote()
-    }
-
-
-    render() {
-        if (this.state.note == null) {
-            return <p>Note detail is note Found</p>
-        }
+    if (note == null) {
         return (
-            <NoteDetail {...this.state.note} onDelete={this.props.onDelete} onToggleArchive={this.onToggleArchiveHandler} />
+            <p>Note detail is note Found</p>
         )
     }
+
+    return (
+        <>
+            <NoteDetail {...note} onDelete={onDeleteNoteHandler} toggleArchive={onToggleArchiveHandler} />
+        </>
+    )
 }
 
-DetailPage.propTypes = {
-    id: PropTypes.string.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onActiveNote: PropTypes.func.isRequired
-}
 
-
-export default DetailPageWapper
+export default DetailPage

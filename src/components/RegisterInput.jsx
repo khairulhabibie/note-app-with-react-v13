@@ -13,7 +13,7 @@ const RegisterInput = ({ register }) => {
     }
     return (
         <form onSubmit={onSubmitEventHandler}>
-            <input type="text" placeholder='Nama' value={name} onChange={onNameChange} autoComplete='off' className='title' />
+            <input type='text' placeholder='Nama' value={name} onChange={onNameChange} autoComplete='off' className='title' />
             <input type="email" placeholder='Email' value={email} onChange={onEmailChange} autoComplete='off' className='title' />
             <input type='password' placeholder='Password' value={password} onChange={onPasswordChange} rows={13} className='title' />
             <button type='submit'>Register</button>
