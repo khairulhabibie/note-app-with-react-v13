@@ -14,7 +14,6 @@ const Navigation = ({ authedUser, logout }) => {
         return (
             <nav className="Navigation">
                 <ul>
-
                     <li>
                         <Link to='/'><FiLogIn /></Link>
                     </li>
